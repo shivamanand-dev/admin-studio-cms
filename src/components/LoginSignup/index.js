@@ -4,13 +4,13 @@ import { useRouter } from "next/router";
 import React from "react";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { userService } from "src/services/user.services";
 
-// import { encryptAll } from "src/services/RSAencryption";
-// import { userService } from "src/services/user.service";
 import { reduxStoreState, setShowAlert } from "@/redux/reduxStore";
+import { encryptAll } from "@/services/RSAEncryption";
+import { ip_data_API } from "@/utils/constants/app_config";
 import { app_routes } from "@/utils/constants/app_constants";
 
-// import { ip_data_API } from "@/utils/constants/app_config";
 // import { app_routes } from "@/utils/constants/app_constants";
 import AlertMessage from "../AlertMessage";
 import { PrimaryButton } from "../Buttons";
@@ -66,104 +66,105 @@ function LoginSignup({ activeForm = "login" }) {
   }
 
   // On click Login
-  // async function onclickLogin() {
-  //   setSubmitBtnIsDisabled(true);
-  //   setSubmitBtnText("Loading...");
+  async function onclickLogin() {
+    setSubmitBtnIsDisabled(true);
+    setSubmitBtnText("Loading...");
 
-  //   const loginDetails = {
-  //     username: formData.username,
-  //     password: formData.password,
-  //   };
+    const loginDetails = {
+      username: formData.username,
+      password: formData.password,
+    };
 
-  //   const encryptedLoginDetails = encryptAll(loginDetails);
-  //   const response = await userService.login(encryptedLoginDetails);
+    // const encryptedLoginDetails = encryptAll(loginDetails);
+    const response = await userService.login(loginDetails);
 
-  //   if (!response?.success) {
-  //     dispatch(setShowAlert(true));
-  //     setShowMessage({
-  //       title: "Error",
-  //       colorType: "error",
-  //       message: response?.message,
-  //     });
+    if (!response?.success) {
+      dispatch(setShowAlert(true));
+      setShowMessage({
+        title: "Error",
+        colorType: "error",
+        message: response?.error,
+      });
 
-  //     timeOut();
+      timeOut();
 
-  //     setSubmitBtnIsDisabled(false);
-  //     setSubmitBtnText("Login");
-  //   } else {
-  //     dispatch(setShowAlert(true));
-  //     setShowMessage({
-  //       title: "Success",
-  //       colorType: "success",
-  //       message: "Logged In Successfully",
-  //     });
-  //     timeOut();
-  //   }
+      setSubmitBtnIsDisabled(false);
+      setSubmitBtnText("Login");
+    } else {
+      dispatch(setShowAlert(true));
+      setShowMessage({
+        title: "Success",
+        colorType: "success",
+        message: "Logged In Successfully",
+      });
+      timeOut();
+    }
 
-  //   return router.push(
-  //     `${app_routes.profile}/${response?.userDetails?.username}`
-  //   );
-  // }
+    // return router.push(
+    //   `${app_routes.profile}/${response?.userDetails?.username}`
+    // );
+  }
 
   // On click Sign up
-  // async function onclickSignUp() {
-  //   setSubmitBtnIsDisabled(true);
-  //   setSubmitBtnText("Loading...");
-  //   const validEmail = handleOnErrorEmail(formData.email);
-  //   if (!validEmail) {
-  //     setSubmitBtnIsDisabled(false);
-  //     dispatch(setShowAlert(true));
-  //     setShowMessage({
-  //       title: "Error",
-  //       colorType: "error",
-  //       message: "Incorrect Email",
-  //     });
-  //     timeOut();
-  //     setSubmitBtnText("Sign up");
-  //     return true;
-  //   }
-  //   const toEncrypt = {
-  //     email: formData.email,
-  //     username: formData.username,
-  //     password: formData.password,
-  //   };
-  //   const encryptedData = encryptAll(toEncrypt);
-  //   const encryptedFormData = { ...formData, ...encryptedData };
-  //   const response = await userService.signup(encryptedFormData);
-  //   if (!response?.success) {
-  //     dispatch(setShowAlert(true));
-  //     setShowMessage({
-  //       title: "Error",
-  //       colorType: "error",
-  //       message: response?.message,
-  //     });
-  //     timeOut();
-  //     setSubmitBtnIsDisabled(false);
-  //     setSubmitBtnText("Sign up");
-  //     return;
-  //   } else {
-  //     dispatch(setShowAlert(true));
-  //     setShowMessage({
-  //       title: "Success",
-  //       colorType: "success",
-  //       message: "Signed Up Successfully",
-  //     });
-  //     timeOut();
-  //   }
-  //   if (profilePicture) {
-  //     const imageUploadRes = await userService.uploadToS3(
-  //       profilePicture,
-  //       "image"
-  //     );
-  //     await userService.updateProfile({
-  //       profileImageUrl: imageUploadRes.url,
-  //     });
-  //   }
-  //   await userService.updateUserCountry(ip_data_API);
-  //   return router.push(
-  //     `${app_routes.profile}/${response?.userDetails?.username}`
-  //   );
-  // }
+  async function onclickSignUp() {
+    setSubmitBtnIsDisabled(true);
+    setSubmitBtnText("Loading...");
+    const validEmail = handleOnErrorEmail(formData.email);
+    if (!validEmail) {
+      setSubmitBtnIsDisabled(false);
+      dispatch(setShowAlert(true));
+      setShowMessage({
+        title: "Error",
+        colorType: "error",
+        message: "Incorrect Email",
+      });
+      timeOut();
+      setSubmitBtnText("Sign up");
+      return true;
+    }
+    const toEncrypt = {
+      email: formData.email,
+      username: formData.username,
+      password: formData.password,
+    };
+    const encryptedData = encryptAll(toEncrypt);
+    const encryptedFormData = { ...formData, ...encryptedData };
+    const response = await userService.signup(formData);
+
+    if (!response?.success) {
+      dispatch(setShowAlert(true));
+      setShowMessage({
+        title: "Error",
+        colorType: "error",
+        message: response?.message,
+      });
+      timeOut();
+      setSubmitBtnIsDisabled(false);
+      setSubmitBtnText("Sign up");
+      return;
+    } else {
+      dispatch(setShowAlert(true));
+      setShowMessage({
+        title: "Success",
+        colorType: "success",
+        message: "Signed Up Successfully",
+      });
+      timeOut();
+    }
+    if (profilePicture) {
+      const imageUploadRes = await userService.uploadToS3(
+        profilePicture,
+        "image"
+      );
+      await userService.updateProfile({
+        profileImageUrl: imageUploadRes.url,
+      });
+    }
+    // await userService.updateUserCountry(ip_data_API);
+    // return router.push(
+    //   `${app_routes.profile}/${response?.userDetails?.username}`
+    // );
+  }
 
   return (
     <StyledLoginSignup>
@@ -214,7 +215,7 @@ function LoginSignup({ activeForm = "login" }) {
           />
           <PrimaryButton
             buttonText={submitBtnText}
-            // onClick={activeForm === "login" ? onclickLogin : onclickSignUp}
+            onClick={activeForm === "login" ? onclickLogin : onclickSignUp}
             disabled={submitBtnIsDisabled}
           />
 
