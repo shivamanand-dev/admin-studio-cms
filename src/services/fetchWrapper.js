@@ -53,7 +53,6 @@ function handleResponse(response) {
     if (!response.ok) {
       if ([401].includes(response.status) && userService.userValue) {
         // auto logout if 401 Unauthorized or 403 Forbidden response returned from api
-        // 403 is removed for private canvas.
         userService.logout();
       }
       return data;
