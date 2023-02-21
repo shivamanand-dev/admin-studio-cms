@@ -8,6 +8,7 @@ import { userService } from "src/services/user.services";
 
 import { reduxStoreState, setShowAlert } from "@/redux/reduxStore";
 import { encryptAll } from "@/services/RSAEncryption";
+import uploadToFirebase from "@/services/uploadFirebase";
 import { ip_data_API } from "@/utils/constants/app_config";
 import { app_routes } from "@/utils/constants/app_constants";
 
@@ -141,6 +142,7 @@ function LoginSignup({ activeForm = "login" }) {
       timeOut();
       setSubmitBtnIsDisabled(false);
       setSubmitBtnText("Sign up");
+      // eslint-disable-next-line sonarjs/no-redundant-jump
       return;
     } else {
       dispatch(setShowAlert(true));
@@ -151,19 +153,21 @@ function LoginSignup({ activeForm = "login" }) {
       });
       timeOut();
     }
-    if (profilePicture) {
-      const imageUploadRes = await userService.uploadToS3(
-        profilePicture,
-        "image"
-      );
-      await userService.updateProfile({
-        profileImageUrl: imageUploadRes.url,
-      });
-    }
+
     // await userService.updateUserCountry(ip_data_API);
     // return router.push(
     //   `${app_routes.profile}/${response?.userDetails?.username}`
     // );
+  }
+
+  async function uploadProfilePic(fileName) {
+    const imageUploadRes = await uploadToFirebase(
+      profilePicture,
+      fileName,
+      "images"
+    );
+
+    setFormData({ ...formData, profileImageUrl: imageUploadRes });
   }
 
   return (
@@ -190,6 +194,13 @@ function LoginSignup({ activeForm = "login" }) {
                 type="file"
                 name="profilePic"
                 onChange={handleOnchangeProfilePic}
+              />
+              <PrimaryButton
+                buttonText="Upload"
+                onClick={() => {
+                  uploadProfilePic("dp");
+                }}
+                disabled={!profilePicture}
               />
               <InputField
                 placeholder="Email"
