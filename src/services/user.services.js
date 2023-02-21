@@ -18,22 +18,39 @@ export const userService = {
 };
 
 async function login(data) {
-  return await fetchWrapper.post("/auth/login", data).then((res) => {
+  return await fetchWrapper.post("/auth/login", data).then(async (res) => {
     if (res.success) {
+      await fetch("/api/login", {
+        method: "post",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(res.authToken),
+      });
+
       userSubject.next(res.userDetails);
-      localStorage.setItem("user", JSON.stringify(data.userDetails));
+      localStorage.setItem("user", JSON.stringify(res.userDetails));
     }
     return res;
   });
 }
 
 async function signup(data) {
-  return await fetchWrapper.post("/auth/signup", data).then((res) => {
+  return await fetchWrapper.post("/auth/signup", data).then(async (res) => {
     if (res.success) {
-      userSubject.next(res.userValue);
-      localStorage.setItem("user", JSON.stringify(data.userDetails));
+      if (res.success) {
+        await fetch("/api/login", {
+          method: "post",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(res.authToken),
+        });
+        userSubject.next(res.userValue);
+        localStorage.setItem("user", JSON.stringify(res.userDetails));
+      }
+      return res;
     }
-    return res;
   });
 }
 

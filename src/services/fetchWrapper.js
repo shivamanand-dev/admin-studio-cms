@@ -8,6 +8,7 @@ export const fetchWrapper = {
   get,
   put,
   handleResponse,
+  getToken,
 };
 
 const getCombinedUrl = (url) => backendUri + url;
@@ -33,6 +34,17 @@ async function get(url) {
     origin: "*",
   };
   return await fetch(getCombinedUrl(url), requestOption).then(handleResponse);
+}
+
+async function getToken() {
+  return await fetch("/api/token", {
+    method: "post",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(),
+  });
+  //   .then(fetchWrapper.handleResponse);
 }
 
 async function put(url, body) {
