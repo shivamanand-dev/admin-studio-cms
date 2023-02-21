@@ -48,10 +48,12 @@ async function getToken() {
 }
 
 async function put(url, body) {
+  const token = await getToken();
   const requestOption = {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
+      authToken: token,
     },
     origin: "*",
     body: JSON.stringify(body),
