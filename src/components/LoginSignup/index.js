@@ -1,11 +1,11 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 import { useRouter } from "next/router";
-import React from "react";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { userService } from "src/services/user.services";
 
 import { reduxStoreState, setShowAlert } from "@/redux/reduxStore";
+import { createFileName } from "@/services/createFileName";
 // import { encryptAll } from "@/services/RSAEncryption";
 import uploadToFirebase from "@/services/uploadFirebase";
 import { ip_data_API } from "@/utils/constants/app_config";
@@ -161,9 +161,11 @@ function LoginSignup({ activeForm = "login" }) {
     // );
   }
 
-  async function uploadProfilePic(fileName) {
+  async function uploadProfilePic() {
     setuploadBtnText("uploading");
     setSubmitBtnIsDisabled(true);
+
+    const fileName = await createFileName();
     const imageUploadRes = await uploadToFirebase(
       profilePicture,
       fileName,
@@ -202,7 +204,7 @@ function LoginSignup({ activeForm = "login" }) {
               <PrimaryButton
                 buttonText={uploadBtnText}
                 onClick={() => {
-                  uploadProfilePic("dp");
+                  uploadProfilePic();
                 }}
                 disabled={!profilePicture || uploadBtnText !== "Upload"}
               />
