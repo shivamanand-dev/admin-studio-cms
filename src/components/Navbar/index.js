@@ -19,8 +19,8 @@ import {
 } from "@mui/material";
 import { useRouter } from "next/router";
 import { useState } from "react";
-import { userService } from "src/services/user.service";
 
+import { userService } from "@/services/user.services";
 import { app_routes } from "@/utils/constants/app_constants";
 
 import InputField from "../InputField";
