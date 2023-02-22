@@ -15,6 +15,8 @@ export const userService = {
   login,
   logout,
   signup,
+  updateUserCountry,
+  updateProfile,
 };
 
 async function login(data) {
@@ -59,4 +61,28 @@ async function logout() {
   localStorage.clear();
   await fetch("/api/logout");
   return Router.reload();
+}
+
+async function updateProfile(data) {
+  return await fetchWrapper.put("/profile/update", data).then((res) => {
+    userSubject.next(res);
+  });
+}
+
+async function updateUserCountry(api_key) {
+  try {
+    if (!userService?.userValue?.country) {
+      const country = await fetch(`https://api.ipdata.co/?api-key=${api_key}`, {
+        method: "GET",
+      }).then((res) => res.json());
+
+      await userService.updateProfile({
+        liveCountry: country,
+      });
+    }
+  } catch (error) {
+    // eslint-disable-next-line no-console
+    console.log({ error });
+    return error;
+  }
 }

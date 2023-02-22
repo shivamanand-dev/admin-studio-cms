@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 import { useRouter } from "next/router";
 import React from "react";
@@ -7,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { userService } from "src/services/user.services";
 
 import { reduxStoreState, setShowAlert } from "@/redux/reduxStore";
-import { encryptAll } from "@/services/RSAEncryption";
+// import { encryptAll } from "@/services/RSAEncryption";
 import uploadToFirebase from "@/services/uploadFirebase";
 import { ip_data_API } from "@/utils/constants/app_config";
 import { app_routes } from "@/utils/constants/app_constants";
@@ -42,6 +41,8 @@ function LoginSignup({ activeForm = "login" }) {
   const [submitBtnText, setSubmitBtnText] = useState(
     activeForm === "login" ? "Login" : "Sign Up"
   );
+
+  const [uploadBtnText, setuploadBtnText] = useState("Upload");
 
   // handle on Change for login
   function handleOnchange(e) {
@@ -123,13 +124,13 @@ function LoginSignup({ activeForm = "login" }) {
       setSubmitBtnText("Sign up");
       return true;
     }
-    const toEncrypt = {
-      email: formData.email,
-      username: formData.username,
-      password: formData.password,
-    };
-    const encryptedData = encryptAll(toEncrypt);
-    const encryptedFormData = { ...formData, ...encryptedData };
+    // const toEncrypt = {
+    //   email: formData.email,
+    //   username: formData.username,
+    //   password: formData.password,
+    // };
+    // const encryptedData = encryptAll(toEncrypt);
+    // const encryptedFormData = { ...formData, ...encryptedData };
     const response = await userService.signup(formData);
 
     if (!response?.success) {
@@ -154,20 +155,23 @@ function LoginSignup({ activeForm = "login" }) {
       timeOut();
     }
 
-    // await userService.updateUserCountry(ip_data_API);
+    await userService.updateUserCountry(ip_data_API);
     // return router.push(
     //   `${app_routes.profile}/${response?.userDetails?.username}`
     // );
   }
 
   async function uploadProfilePic(fileName) {
+    setuploadBtnText("uploading");
+    setSubmitBtnIsDisabled(true);
     const imageUploadRes = await uploadToFirebase(
       profilePicture,
       fileName,
       "images"
     );
-
+    setuploadBtnText("Success");
     setFormData({ ...formData, profileImageUrl: imageUploadRes });
+    setSubmitBtnIsDisabled(false);
   }
 
   return (
@@ -196,11 +200,11 @@ function LoginSignup({ activeForm = "login" }) {
                 onChange={handleOnchangeProfilePic}
               />
               <PrimaryButton
-                buttonText="Upload"
+                buttonText={uploadBtnText}
                 onClick={() => {
                   uploadProfilePic("dp");
                 }}
-                disabled={!profilePicture}
+                disabled={!profilePicture || uploadBtnText !== "Upload"}
               />
               <InputField
                 placeholder="Email"
