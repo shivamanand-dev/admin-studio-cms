@@ -43,8 +43,7 @@ async function getToken() {
       "Content-Type": "application/json",
     },
     body: JSON.stringify(),
-  });
-  //   .then(fetchWrapper.handleResponse);
+  }).then(fetchWrapper.handleResponse);
 }
 
 async function put(url, body) {
