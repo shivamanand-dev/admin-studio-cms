@@ -10,8 +10,6 @@ function Profile() {
         src={user?.profileImageUrl}
         name={user?.name}
         userName={user?.username}
-        follower={user?.followers?.length}
-        following={user?.following?.length}
       />
     </StyledProfile>
   );

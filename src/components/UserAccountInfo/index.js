@@ -5,7 +5,7 @@ import Picture from "@/components/Picture";
 
 import { StyledUserAccountInfo } from "./StyledUserAccountInfo";
 
-function UserAccountInfo({ src, name, userName, follower, following }) {
+function UserAccountInfo({ src, name, userName }) {
   return (
     <StyledUserAccountInfo>
       <div className="flex">
@@ -18,15 +18,6 @@ function UserAccountInfo({ src, name, userName, follower, following }) {
             @{userName}
           </Typography>
         </div>
-      </div>
-
-      <div className="flex" style={{ marginTop: 15 }}>
-        <Typography variant="h6" ml={3}>
-          Follower: {follower}
-        </Typography>
-        <Typography variant="h6" ml={3}>
-          Following: {following}
-        </Typography>
       </div>
     </StyledUserAccountInfo>
   );

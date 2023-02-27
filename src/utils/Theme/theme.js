@@ -7,19 +7,14 @@ export const error = {
   color: "#F80000",
 };
 
-export const darkTheme = {
-  palette: {
-    mode: "dark",
-    primary: {
-      main: "#1976d2",
-    },
-  },
+export const boxShadow = {
+  dark: "0px 0px 100px 20px #333",
 };
 
 const theme = {
   COLORS,
   error,
-  darkTheme,
+  boxShadow,
 };
 
 export default theme;
