@@ -54,8 +54,8 @@ async function signup(data) {
             },
             body: JSON.stringify(res.authToken),
           });
-          userSubject.next(res.userValue);
-          localStorage.setItem("user", JSON.stringify(res.userDetails));
+          userSubject.next(res.user);
+          localStorage.setItem("user", JSON.stringify(res.user));
         }
         return res;
       }
