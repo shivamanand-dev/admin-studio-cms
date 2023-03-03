@@ -85,13 +85,14 @@ function LoginSignup({ activeForm = "login" }) {
       setShowMessage({
         title: "Error",
         colorType: "error",
-        message: response?.error,
+        message: response?.message,
       });
 
       timeOut();
 
       setSubmitBtnIsDisabled(false);
       setSubmitBtnText("Login");
+      return;
     } else {
       dispatch(setShowAlert(true));
       setShowMessage({
