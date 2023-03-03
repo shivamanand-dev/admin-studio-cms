@@ -2,7 +2,11 @@ export const app_routes = {
   login: "/login",
   signup: "/signup",
   profile: "/profile",
-  staticPage: "/staticPage",
+  staticPage: "/staticPageData",
 };
 
-export const lockedRoutes = [app_routes.profile, "/profile/[pid]"];
+export const lockedRoutes = [
+  app_routes.profile,
+  `/${app_routes.profile}/[pid]`,
+  `/${app_routes.staticPage}/[pid]`,
+];
