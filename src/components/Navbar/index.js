@@ -23,7 +23,6 @@ import { useState } from "react";
 import { userService } from "@/services/user.services";
 import { app_routes } from "@/utils/constants/app_constants";
 
-import InputField from "../InputField";
 import { StyledNavbar } from "./StyledNavbar";
 
 function Navbar({ messageBadgeContent = 1 }) {
@@ -155,22 +154,13 @@ function Navbar({ messageBadgeContent = 1 }) {
           sx={{ background: "#3c3c3c", color: "#eeeeee" }}
         >
           <Toolbar>
-            {/* <IconButton
-              size="large"
-              edge="start"
-              color="inherit"
-              aria-label="open drawer"
-              sx={{ mr: 2 }}
-            >
-              <MenuIcon />
-            </IconButton> */}
             <Typography
               variant="h6"
               noWrap
               component="div"
               sx={{ display: { sm: "block" } }}
             >
-              Resume Maker
+              CMS
             </Typography>
             <Box sx={{ flexGrow: 1 }} />
             <Box sx={{ display: { xs: "none", md: "flex" } }}>
@@ -206,7 +196,7 @@ function Navbar({ messageBadgeContent = 1 }) {
               )}
               {user && (
                 <>
-                  <InputField placeholder="Search Username" />
+                  {/* <InputField placeholder="Search Username" /> */}
                   <IconButton
                     size="large"
                     aria-label="show 17 new notifications"
