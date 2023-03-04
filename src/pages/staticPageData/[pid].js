@@ -1,10 +1,22 @@
 import { useRouter } from "next/router";
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import { StyledStaticPageData } from "@/components/StyledPages";
 import NavbarData from "@/components/UploadData/NavbarData";
+import { staticPageServices } from "@/services/staticPage.services";
 
 function StaticPageData() {
+  const [pageData, setPageData] = useState();
+
+  const fetchPageData = async () => {
+    const data = await staticPageServices.fetchPageData();
+
+    return setPageData(data.homePage);
+  };
+
+  useEffect(() => {
+    fetchPageData();
+  }, []);
   const router = useRouter();
   const routerPid = router.query.pid;
   return (
@@ -13,7 +25,7 @@ function StaticPageData() {
         <p>{routerPid?.charAt(0).toUpperCase() + routerPid?.slice(1)} Page</p>
       </div>
       <p>Navbar Data</p>
-      <NavbarData />
+      <NavbarData pageData={pageData} />
     </StyledStaticPageData>
   );
 }

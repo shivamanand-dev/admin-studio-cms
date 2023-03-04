@@ -12,7 +12,8 @@ function NavbarItem() {
   );
 }
 
-function NavbarData() {
+function NavbarData({ pageData }) {
+  console.log(pageData);
   return (
     <StyledNavbarData>
       <nav className="navbar">

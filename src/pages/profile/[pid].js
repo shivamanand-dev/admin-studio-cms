@@ -23,7 +23,7 @@ function Profile() {
       <PrimaryButton
         buttonText="Create a Website"
         onClick={() => {
-          routeTo(app_routes.staticPage);
+          routeTo(`${app_routes.staticPage}/home`);
         }}
       />
     </StyledProfile>

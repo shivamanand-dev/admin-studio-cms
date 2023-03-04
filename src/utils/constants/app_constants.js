@@ -7,6 +7,7 @@ export const app_routes = {
 
 export const lockedRoutes = [
   app_routes.profile,
+  app_routes.staticPage,
   `/${app_routes.profile}/[pid]`,
   `/${app_routes.staticPage}/[pid]`,
 ];
