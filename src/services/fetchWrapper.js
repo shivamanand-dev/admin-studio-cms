@@ -25,11 +25,15 @@ async function post(url, body) {
   return await fetch(getCombinedUrl(url), requestOption).then(handleResponse);
 }
 
-async function get(url) {
+async function get(url, key) {
+  const token = await getToken();
+
   const requestOption = {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
+      authToken: token,
+      key: key,
     },
     origin: "*",
   };

@@ -11,6 +11,7 @@ import {
   AppBar,
   Badge,
   Box,
+  Container,
   IconButton,
   Menu,
   MenuItem,
@@ -23,7 +24,6 @@ import { useState } from "react";
 import { userService } from "@/services/user.services";
 import { app_routes } from "@/utils/constants/app_constants";
 
-import InputField from "../InputField";
 import { StyledNavbar } from "./StyledNavbar";
 
 function Navbar({ messageBadgeContent = 1 }) {
@@ -154,111 +154,104 @@ function Navbar({ messageBadgeContent = 1 }) {
           position="static"
           sx={{ background: "#3c3c3c", color: "#eeeeee" }}
         >
-          <Toolbar>
-            {/* <IconButton
-              size="large"
-              edge="start"
-              color="inherit"
-              aria-label="open drawer"
-              sx={{ mr: 2 }}
-            >
-              <MenuIcon />
-            </IconButton> */}
-            <Typography
-              variant="h6"
-              noWrap
-              component="div"
-              sx={{ display: { sm: "block" } }}
-            >
-              Resume Maker
-            </Typography>
-            <Box sx={{ flexGrow: 1 }} />
-            <Box sx={{ display: { xs: "none", md: "flex" } }}>
-              {!user && (
-                <>
-                  <IconButton
-                    size="large"
-                    edge="end"
-                    aria-label="account of current user"
-                    // aria-controls={menuId}
-                    aria-haspopup="true"
-                    onClick={() => {
-                      sendToRoute(app_routes.login);
-                    }}
-                    color="inherit"
-                  >
-                    <LoginIcon />
-                  </IconButton>
-                  <IconButton
-                    size="large"
-                    edge="end"
-                    aria-label="account of current user"
-                    aria-controls={menuId}
-                    aria-haspopup="true"
-                    onClick={() => {
-                      sendToRoute(app_routes.signup);
-                    }}
-                    color="inherit"
-                  >
-                    <FollowTheSignsIcon />
-                  </IconButton>
-                </>
-              )}
-              {user && (
-                <>
-                  <InputField placeholder="Search Username" />
-                  <IconButton
-                    size="large"
-                    aria-label="show 17 new notifications"
-                    color="inherit"
-                  >
-                    <Badge badgeContent={17} color="error">
-                      <NotificationsIcon />
-                    </Badge>
-                  </IconButton>
-                  <IconButton
-                    size="large"
-                    edge="end"
-                    aria-label="account of current user"
-                    aria-controls={menuId}
-                    aria-haspopup="true"
-                    onClick={() => {
-                      router.push(`${app_routes.profile}/${user?.username}`);
-                    }}
-                    color="inherit"
-                  >
-                    <AccountCircle />
-                  </IconButton>
-
-                  <IconButton
-                    size="large"
-                    edge="end"
-                    aria-label="login"
-                    // aria-controls={menuId}
-                    aria-haspopup="true"
-                    onClick={() => {
-                      onClickLogout();
-                    }}
-                    color="inherit"
-                  >
-                    <LogoutIcon />
-                  </IconButton>
-                </>
-              )}
-            </Box>
-            <Box sx={{ display: { xs: "flex", md: "none" } }}>
-              <IconButton
-                size="large"
-                aria-label="show more"
-                aria-controls={mobileMenuId}
-                aria-haspopup="true"
-                onClick={handleMobileMenuOpen}
-                color="inherit"
+          <Container>
+            <Toolbar>
+              <Typography
+                variant="h6"
+                noWrap
+                component="div"
+                sx={{ display: { sm: "block" } }}
               >
-                <MoreVertIcon />
-              </IconButton>
-            </Box>
-          </Toolbar>
+                CMS
+              </Typography>
+              <Box sx={{ flexGrow: 1 }} />
+              <Box sx={{ display: { xs: "none", md: "flex" } }}>
+                {!user && (
+                  <>
+                    <IconButton
+                      size="large"
+                      edge="end"
+                      aria-label="account of current user"
+                      // aria-controls={menuId}
+                      aria-haspopup="true"
+                      onClick={() => {
+                        sendToRoute(app_routes.login);
+                      }}
+                      color="inherit"
+                    >
+                      <LoginIcon />
+                    </IconButton>
+                    <IconButton
+                      size="large"
+                      edge="end"
+                      aria-label="account of current user"
+                      aria-controls={menuId}
+                      aria-haspopup="true"
+                      onClick={() => {
+                        sendToRoute(app_routes.signup);
+                      }}
+                      color="inherit"
+                    >
+                      <FollowTheSignsIcon />
+                    </IconButton>
+                  </>
+                )}
+                {user && (
+                  <>
+                    {/* <InputField placeholder="Search Username" /> */}
+                    <IconButton
+                      size="large"
+                      aria-label="show 17 new notifications"
+                      color="inherit"
+                    >
+                      <Badge badgeContent={17} color="error">
+                        <NotificationsIcon />
+                      </Badge>
+                    </IconButton>
+                    <IconButton
+                      size="large"
+                      edge="end"
+                      aria-label="account of current user"
+                      aria-controls={menuId}
+                      aria-haspopup="true"
+                      onClick={() => {
+                        router.push(`${app_routes.profile}/${user?.username}`);
+                      }}
+                      color="inherit"
+                    >
+                      <AccountCircle />
+                    </IconButton>
+
+                    <IconButton
+                      size="large"
+                      edge="end"
+                      aria-label="login"
+                      // aria-controls={menuId}
+                      aria-haspopup="true"
+                      onClick={() => {
+                        onClickLogout();
+                      }}
+                      color="inherit"
+                    >
+                      <LogoutIcon />
+                    </IconButton>
+                  </>
+                )}
+              </Box>
+              <Box sx={{ display: { xs: "flex", md: "none" } }}>
+                <IconButton
+                  size="large"
+                  aria-label="show more"
+                  aria-controls={mobileMenuId}
+                  aria-haspopup="true"
+                  onClick={handleMobileMenuOpen}
+                  color="inherit"
+                >
+                  <MoreVertIcon />
+                </IconButton>
+              </Box>
+            </Toolbar>
+          </Container>
         </AppBar>
         {renderMobileMenu}
         {renderMenu}
