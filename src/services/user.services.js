@@ -1,3 +1,4 @@
+/* eslint-disable sonarjs/no-duplicate-string */
 import Router from "next/router";
 import { BehaviorSubject } from "rxjs";
 
@@ -19,6 +20,7 @@ export const userService = {
   signup,
   updateUserCountry,
   updateProfile,
+  getApiKey,
 };
 
 async function login(data) {
@@ -86,6 +88,16 @@ async function updateUserCountry(api_key) {
         liveCountry: country,
       });
     }
+  } catch (error) {
+    // eslint-disable-next-line no-console
+    console.log({ error });
+    return error;
+  }
+}
+
+async function getApiKey() {
+  try {
+    return await fetchWrapper.get("/auth/api-key");
   } catch (error) {
     // eslint-disable-next-line no-console
     console.log({ error });

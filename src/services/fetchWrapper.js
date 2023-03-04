@@ -26,10 +26,13 @@ async function post(url, body) {
 }
 
 async function get(url, key) {
+  const token = await getToken();
+
   const requestOption = {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
+      authToken: token,
       key: key,
     },
     origin: "*",

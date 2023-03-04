@@ -1,3 +1,5 @@
+// import { useState } from "react";
+
 import { PrimaryButton } from "@/components/Buttons";
 
 import { StyledNavbarData } from "./StyledNavbarData";
@@ -13,7 +15,9 @@ function NavbarItem() {
 }
 
 function NavbarData({ pageData }) {
-  console.log(pageData);
+  // const navbarData = pageData?.navbar;
+  // console.log(navbarData);
+
   return (
     <StyledNavbarData>
       <nav className="navbar">
@@ -21,8 +25,8 @@ function NavbarData({ pageData }) {
           Logo: <input type="file" /> <button>-</button>
         </p>
         <div className="navbar-menu">
-          <NavbarItem />
-          <div class="navbar-menu-plus">
+          {pageData && <NavbarItem />}
+          <div className="navbar-menu-plus">
             <PrimaryButton buttonText="Add Item" />
           </div>
         </div>

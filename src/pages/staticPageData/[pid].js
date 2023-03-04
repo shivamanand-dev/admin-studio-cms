@@ -11,7 +11,7 @@ function StaticPageData() {
   const fetchPageData = async () => {
     const data = await staticPageServices.fetchPageData();
 
-    return setPageData(data.homePage);
+    setPageData(data?.data);
   };
 
   useEffect(() => {
