@@ -7,30 +7,21 @@ export const StyledNavbarData = styled.section`
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px;
+    padding: 0 0.75rem;
+  }
+  #logoInput {
+    display: none;
   }
   .navbar p {
     color: #fff;
     text-decoration: none;
   }
-  .navbar-brand {
-    input {
-      width: 180px;
-    }
-  }
+
   .navbar-menu {
     display: flex;
   }
   .navbar-menu-item {
     input {
-      width: 75px;
-      background: none;
-      color: #fff;
-      margin: 0 10px;
-      padding: 5px 10px;
-      border-radius: 5px;
-      border: none;
-      border-bottom: 1px solid #aaa;
       text-align: center;
     }
     transition: all 0.2s ease-in-out;

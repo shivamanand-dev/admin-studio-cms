@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/no-autofocus */
 import { Input } from "@mui/material";
 
 import StyledInputField from "./StyledInputField";
@@ -17,6 +18,7 @@ function InputField({
       <Input
         placeholder={placeholder}
         required={required}
+        autoFocus
         type={type}
         value={value}
         onChange={onChange}
