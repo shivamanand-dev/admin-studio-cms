@@ -35,6 +35,10 @@ function NavbarData({ pageData }) {
   const [navbarData, setNavbarData] = useState(pageData?.navbar);
   const [newLogoFile, setNewLogoFile] = useState();
   const [newProfilePic, setNewProfilePic] = useState();
+  const [activeSaveBtn, setActiveSaveBtn] = useState({
+    text: "save",
+    disabled: false,
+  });
 
   const onChangeLogo = (e) => {
     const file = e.target.files[0];
@@ -61,19 +65,24 @@ function NavbarData({ pageData }) {
     );
 
     setNavbarData({ ...navbarData, logo: imageUploadRes });
+
+    setActiveSaveBtn({ ...activeSaveBtn, active: true });
   };
 
   const onChangeNavbarmenu = (event, index) => {
     let navOptions = [...navbarData.navOptions];
-    // navOptions = navOptions.slice(index + 1);
-    // navOptions.splice(index, 0, event.target.value);
 
+    // eslint-disable-next-line security/detect-object-injection
     navOptions[index] = event.target.value;
 
     setNavbarData({
       ...navbarData,
       navOptions: navOptions,
     });
+  };
+
+  const onClickSave = async () => {
+    setActiveSaveBtn({ ...activeSaveBtn, text: "Saving...", active: false });
   };
 
   useEffect(() => {
@@ -120,12 +129,21 @@ function NavbarData({ pageData }) {
         </div>
       </nav>
 
-      <PrimaryButton
-        buttonText="Upload Profile Pic"
-        customStyle={{ marginTop: "1rem" }}
-        onClick={onClickUploadProfilePic}
-        disabled={!newLogoFile}
-      />
+      <div className="flex space-between">
+        <PrimaryButton
+          buttonText="Upload Profile Pic"
+          customStyle={{ marginTop: "1rem" }}
+          onClick={onClickUploadProfilePic}
+          disabled={!newLogoFile}
+        />
+        <PrimaryButton
+          buttonText={activeSaveBtn.text}
+          customStyle={{ marginTop: "1rem" }}
+          onClick={onClickSave}
+          disabled={!activeSaveBtn.disabled}
+          color="success"
+        />
+      </div>
     </StyledNavbarData>
   );
 }
