@@ -4,16 +4,20 @@ export const reduxStoreSlice = createSlice({
   name: "reduxStore",
   initialState: {
     showAlert: false,
+    pageData: null,
   },
 
   reducers: {
     setShowAlert: (state, action) => {
       state.showAlert = action.payload;
     },
+    setPageData: (state, action) => {
+      state.pageData = action.payload;
+    },
   },
 });
 
-export const { setShowAlert } = reduxStoreSlice.actions;
+export const { setShowAlert, setPageData } = reduxStoreSlice.actions;
 
 export const reduxStoreState = (state) => state.reduxStore;
 

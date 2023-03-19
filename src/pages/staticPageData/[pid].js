@@ -1,21 +1,35 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+import _debounce from "lodash/debounce";
 import { useRouter } from "next/router";
-import React, { useEffect, useState } from "react";
+import { useCallback, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 import { StyledStaticPageData } from "@/components/StyledPages";
 import NavbarData from "@/components/UploadData/NavbarData";
+import { reduxStoreState, setPageData } from "@/redux/reduxStore";
 import { staticPageServices } from "@/services/staticPage.services";
 
 function StaticPageData() {
-  const [pageData, setPageData] = useState();
+  const state = useSelector(reduxStoreState);
+  const dispatch = useDispatch();
 
-  const fetchPageData = async () => {
+  const fetchData = async () => {
     const data = await staticPageServices.fetchPageData();
 
-    setPageData(data?.data);
+    dispatch(setPageData(data));
+  };
+
+  const debounceFn = useCallback(
+    _debounce(staticPageServices.updateData, 2000),
+    []
+  );
+
+  const updatePage = (data) => {
+    debounceFn(data);
   };
 
   useEffect(() => {
-    fetchPageData();
+    fetchData();
   }, []);
   const router = useRouter();
   const routerPid = router.query.pid;
@@ -25,7 +39,11 @@ function StaticPageData() {
         <p>{routerPid?.charAt(0).toUpperCase() + routerPid?.slice(1)} Page</p>
       </div>
       <p>Navbar Data</p>
-      <NavbarData pageData={pageData} />
+      <NavbarData
+        pageData={state?.pageData?.data}
+        debounceFn={debounceFn}
+        updatePage={updatePage}
+      />
     </StyledStaticPageData>
   );
 }

@@ -15,7 +15,7 @@ function NavbarItem({ data, onChangeNavbarmenu, index }) {
         {/* <input type="text" value={data} onChange={onChangeNavbarmenu} /> */}
         <InputField
           type="text"
-          value={data}
+          value={data.item}
           onChange={(event) => {
             onChangeNavbarmenu(event, index);
           }}
@@ -31,14 +31,10 @@ function NavbarItem({ data, onChangeNavbarmenu, index }) {
   );
 }
 
-function NavbarData({ pageData }) {
+function NavbarData({ pageData, updatePage }) {
   const [navbarData, setNavbarData] = useState(pageData?.navbar);
   const [newLogoFile, setNewLogoFile] = useState();
   const [newProfilePic, setNewProfilePic] = useState();
-  const [activeSaveBtn, setActiveSaveBtn] = useState({
-    text: "save",
-    disabled: false,
-  });
 
   const onChangeLogo = (e) => {
     const file = e.target.files[0];
@@ -65,11 +61,9 @@ function NavbarData({ pageData }) {
     );
 
     setNavbarData({ ...navbarData, logo: imageUploadRes });
-
-    setActiveSaveBtn({ ...activeSaveBtn, active: true });
   };
 
-  const onChangeNavbarmenu = (event, index) => {
+  const onChangeNavbarmenu = async (event, index) => {
     let navOptions = [...navbarData.navOptions];
 
     // eslint-disable-next-line security/detect-object-injection
@@ -79,15 +73,16 @@ function NavbarData({ pageData }) {
       ...navbarData,
       navOptions: navOptions,
     });
-  };
-
-  const onClickSave = async () => {
-    setActiveSaveBtn({ ...activeSaveBtn, text: "Saving...", active: false });
+    updatePage(navbarData);
   };
 
   useEffect(() => {
     setNavbarData(pageData?.navbar);
   }, [pageData]);
+
+  useEffect(() => {
+    updatePage(navbarData);
+  }, [navbarData]);
 
   return (
     <StyledNavbarData>
@@ -131,17 +126,10 @@ function NavbarData({ pageData }) {
 
       <div className="flex space-between">
         <PrimaryButton
-          buttonText="Upload Profile Pic"
+          buttonText="Update Logo"
           customStyle={{ marginTop: "1rem" }}
           onClick={onClickUploadProfilePic}
           disabled={!newLogoFile}
-        />
-        <PrimaryButton
-          buttonText={activeSaveBtn.text}
-          customStyle={{ marginTop: "1rem" }}
-          onClick={onClickSave}
-          disabled={!activeSaveBtn.disabled}
-          color="success"
         />
       </div>
     </StyledNavbarData>

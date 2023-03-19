@@ -18,7 +18,6 @@ function InputField({
       <Input
         placeholder={placeholder}
         required={required}
-        autoFocus
         type={type}
         value={value}
         onChange={onChange}
